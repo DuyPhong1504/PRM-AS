@@ -9,13 +9,13 @@ public class Cart_class extends HashMap {
     }
 
     public void addShoe(Shoe shoe){
-        int key =shoe.getId();
+        int key =shoe.getIdShoe();
         if(this.containsKey(key)){
             int oldQuantity= ((Shoe)this.get(key)).getQuantity();
             ((Shoe)this.get(key)).setQuantity(oldQuantity+1);
 
         }else {
-            this.put(shoe.getId(),shoe);
+            this.put(shoe.getIdShoe(),shoe);
         }
 
     }

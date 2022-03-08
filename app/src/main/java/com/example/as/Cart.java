@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class Cart extends AppCompatActivity {
     ListView lvShoeCart;
     ArrayList<Shoe> arrayShoe;
-    ShoeAdapter adapter;
+    CartAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class Cart extends AppCompatActivity {
         
 
 
-        adapter=new ShoeAdapter(this,R.layout.dong_shoe,arrayShoe);
+        adapter=new CartAdapter(this,R.layout.dong_cart,arrayShoe);
         lvShoeCart.setAdapter(adapter);
 
 

@@ -33,7 +33,7 @@ public class DetailShoe extends AppCompatActivity {
         super.onResume();
         txtNameShoeDetail.setText(AppUtil.ShoeName);
         txtPriceShoeDetail.setText(AppUtil.shoePrice);
-        txtDetailShoesDetail.setText(AppUtil.shoeDetail);
+        txtDetailShoesDetail.setText("Detail : "+AppUtil.shoeDetail);
 
     }
 }
