@@ -17,7 +17,6 @@ public class Cart_class extends HashMap {
         }else {
             this.put(shoe.getIdShoe(),shoe);
         }
-
     }
 
     public boolean removeBook(int id){

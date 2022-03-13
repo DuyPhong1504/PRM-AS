@@ -27,16 +27,8 @@ public class Cart extends AppCompatActivity {
         
 
 
-
-
-        
-        
-
-
         adapter=new CartAdapter(this,R.layout.dong_cart,arrayShoe);
         lvShoeCart.setAdapter(adapter);
-
-
 
 
     }

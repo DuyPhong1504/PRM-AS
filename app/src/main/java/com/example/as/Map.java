@@ -1,6 +1,9 @@
 package com.example.as;
 
 import android.os.Bundle;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -9,8 +12,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class Map extends AppCompatActivity  {
-
+public class Map extends AppCompatActivity    {
+    SupportMapFragment mapFragment;
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +22,30 @@ public class Map extends AppCompatActivity  {
         setContentView(R.layout.activity_map);
 
 
+        mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap map) {
+                    float zoomlevel=14.0f;
+                    mMap = map;
+
+                    // Add a marker in Sydney and move the camera
+                    LatLng fptedu = new LatLng(10.8411817, 106.8098036);
+                    mMap.addMarker(new MarkerOptions()
+                            .position(fptedu)
+                            .title("Marker in FPT edu"));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(fptedu,zoomlevel));
+                }
+            });
+        } else {
+            Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
+        }
+
     }
+
+
+
 
     /**
      * Manipulates the map once available.
