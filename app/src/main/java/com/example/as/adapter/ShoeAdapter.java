@@ -3,13 +3,16 @@ package com.example.as;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.drawable.LayerDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.as.activity.DetailShoe;
+import com.example.as.model.AppUtil;
+import com.example.as.model.Shoe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +71,7 @@ public class ShoeAdapter  extends BaseAdapter {
             holder.imageviewShoeDetail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent=new Intent(context,DetailShoe.class);
+                    Intent intent=new Intent(context, DetailShoe.class);
                     database=new Database(context,"GhiChu.sqlite",null,1);
                     int iddetail=i+1;
                     Cursor dataShoe=database.GetData("Select * from Shoe Where id = "+ iddetail + " LIMIT 1 ");

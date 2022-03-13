@@ -1,6 +1,8 @@
 package com.example.as;
 
 
+import com.example.as.model.Shoe;
+
 import java.util.HashMap;
 
 public class Cart_class extends HashMap {

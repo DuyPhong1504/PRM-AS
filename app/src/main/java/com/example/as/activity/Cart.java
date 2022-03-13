@@ -1,14 +1,14 @@
-package com.example.as;
+package com.example.as.model;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.example.as.adapter.CartAdapter;
+import com.example.as.R;
+
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 
 public class Cart extends AppCompatActivity {
