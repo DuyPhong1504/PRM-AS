@@ -1,4 +1,4 @@
-package com.example.as;
+package com.example.as.model;
 
 
 import com.example.as.model.Shoe;

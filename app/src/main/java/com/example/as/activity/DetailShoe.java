@@ -1,9 +1,12 @@
-package com.example.as;
+package com.example.as.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.example.as.R;
+import com.example.as.model.AppUtil;
 
 public class DetailShoe extends AppCompatActivity {
     TextView txtNameShoeDetail,txtPriceShoeDetail,txtDetailShoesDetail;

@@ -1,14 +1,15 @@
-package com.example.as;
+package com.example.as.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.as.database.Database;
+import com.example.as.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class Register extends AppCompatActivity {

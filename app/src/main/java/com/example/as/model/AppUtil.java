@@ -1,6 +1,4 @@
-package com.example.as;
-
-import java.util.HashMap;
+package com.example.as.model;
 
 public class AppUtil {
     public static String ShoeName="",shoePrice="",shoeDetail="";

@@ -1,14 +1,25 @@
-package com.example.as;
+package com.example.as.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.example.as.database.Database;
+import com.example.as.R;
+import com.example.as.adapter.ShoeAdapter;
+import com.example.as.model.AppUtil;
+import com.example.as.model.Cart_class;
+import com.example.as.model.Shoe;
 
 import java.util.ArrayList;
 
@@ -17,12 +28,12 @@ public class MainActivity extends AppCompatActivity {
     ListView lvShoe;
     ArrayList<Shoe> arrayShoe;
     ShoeAdapter adapter;
+    ImageView cart;
     Intent i;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.add_shoe,menu);
-        getMenuInflater().inflate(R.menu.cart,menu);
         getMenuInflater().inflate(R.menu.google_map,menu);
 
         return super.onCreateOptionsMenu(menu);
@@ -36,8 +47,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(item.getItemId()==R.id.menuCart){
-            i = new Intent(this, Cart.class);
-            startActivity(i);
+            if(AppUtil.cart==null){
+                AppUtil.cart=new Cart_class();
+            }
+                i = new Intent(this, Cart.class);
+                startActivity(i);
         }
         if(item.getItemId()==R.id.googleMapmenu){
             i = new Intent(this, Map.class);
@@ -50,6 +64,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        cart=(ImageView) findViewById(R.id.cart);
+
+        cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(AppUtil.cart==null){
+                    AppUtil.cart=new Cart_class();
+                }
+                startActivity(i);
+            }
+        });
 
 
 
@@ -82,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        i = new Intent(this, Cart.class);
         arrayShoe.clear();
         database.QueryData("Create table if not exists Shoe(id Integer Primary Key Autoincrement," +
                 "nameShoe nvarchar(200),price nvarchar(200),detail nvarchar(300))");

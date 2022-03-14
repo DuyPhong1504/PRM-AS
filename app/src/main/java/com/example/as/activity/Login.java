@@ -1,4 +1,4 @@
-package com.example.as;
+package com.example.as.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,9 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.as.database.Database;
+import com.example.as.R;
 import com.google.android.material.textfield.TextInputEditText;
-
-import org.w3c.dom.Text;
 
 public class Login extends AppCompatActivity {
     Database database;

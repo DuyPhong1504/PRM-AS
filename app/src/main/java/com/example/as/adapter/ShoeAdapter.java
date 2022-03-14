@@ -1,4 +1,4 @@
-package com.example.as;
+package com.example.as.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.as.activity.MainActivity;
+import com.example.as.model.Cart_class;
+import com.example.as.database.Database;
+import com.example.as.R;
 import com.example.as.activity.DetailShoe;
 import com.example.as.model.AppUtil;
 import com.example.as.model.Shoe;
@@ -92,6 +97,7 @@ public class ShoeAdapter  extends BaseAdapter {
                         AppUtil.cart=new Cart_class();
                     }
                     AppUtil.cart.addShoe(shoeList.get(i));
+                    Toast.makeText(context,"Add to cart success",Toast.LENGTH_LONG).show();
                     System.out.println(AppUtil.cart);
 
 

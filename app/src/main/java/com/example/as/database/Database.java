@@ -1,4 +1,4 @@
-package com.example.as;
+package com.example.as.database;
 
 import android.content.Context;
 import android.database.Cursor;

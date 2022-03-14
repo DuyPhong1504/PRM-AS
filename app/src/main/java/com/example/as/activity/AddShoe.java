@@ -1,13 +1,13 @@
-package com.example.as;
+package com.example.as.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
+import com.example.as.database.Database;
+import com.example.as.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class AddShoe extends AppCompatActivity {
