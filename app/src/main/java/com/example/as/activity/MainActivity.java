@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.as.database.Database;
@@ -30,12 +31,12 @@ public class MainActivity extends AppCompatActivity {
     ShoeAdapter adapter;
     ImageView cart;
     Intent i;
+    TextView totalCartShoes;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.add_shoe,menu);
         getMenuInflater().inflate(R.menu.google_map,menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -47,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(item.getItemId()==R.id.menuCart){
-            if(AppUtil.cart==null){
-                AppUtil.cart=new Cart_class();
-            }
                 i = new Intent(this, Cart.class);
                 startActivity(i);
         }
@@ -65,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         cart=(ImageView) findViewById(R.id.cart);
+        totalCartShoes=(TextView) findViewById(R.id.totalCart);
+        if(AppUtil.cart==null)
+        AppUtil.cart=new Cart_class();
 
         cart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+
+        totalCartShoes.setText("Your cart have "+AppUtil.cart.size() +" shoes");
         i = new Intent(this, Cart.class);
         arrayShoe.clear();
         database.QueryData("Create table if not exists Shoe(id Integer Primary Key Autoincrement," +

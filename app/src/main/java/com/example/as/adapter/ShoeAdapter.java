@@ -1,5 +1,6 @@
 package com.example.as.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -98,7 +99,7 @@ public class ShoeAdapter  extends BaseAdapter {
                     }
                     AppUtil.cart.addShoe(shoeList.get(i));
                     Toast.makeText(context,"Add to cart success",Toast.LENGTH_LONG).show();
-                    System.out.println(AppUtil.cart);
+                    ((Activity)context).recreate();
 
 
                 }
