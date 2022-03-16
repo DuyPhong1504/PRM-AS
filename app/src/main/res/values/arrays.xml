@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="range">
+        <item>10</item>
+        <item>2000</item>
+    </array>
+</resources>

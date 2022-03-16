@@ -2,88 +2,79 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/textViewNameCart"
-        android:layout_width="260dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:text="Name shoe"
-        android:textColor="@color/cardview_dark_background"
-        android:textSize="26dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-
-
-    <TextView
-        android:id="@+id/textViewPriceCart"
-        android:layout_width="260dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
-        android:text="Price shoe"
-        android:textColor="@color/cardview_dark_background"
-        android:textSize="26dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-    <TextView
-        android:id="@+id/textViewQuantityCart"
-        android:layout_width="260dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="80dp"
-        android:text=""
-        android:textColor="@color/cardview_dark_background"
-        android:textSize="26dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-
-
 
     <ImageView
-        android:id="@+id/imageviewShoeCart"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="-400dp"
-        android:layout_marginTop="100dp"
+        android:id="@+id/ivProductBanner"
+        android:scaleType="fitXY"
         android:src="@drawable/img"
-        app:layout_constraintHorizontal_weight="0.5"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imgDelete"
-        android:layout_width="104dp"
-        android:layout_height="71dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_delete" />
+        app:layout_constraintWidth_percent="0.5"
+        android:layout_width="0dp"
+        android:layout_height="180dp"/>
 
-    <ImageView
-        android:id="@+id/imgAdd"
-        android:layout_width="35dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="108dp"
-        app:layout_constraintEnd_toEndOf="parent"
+
+    <TextView
+        android:id="@+id/tvProductName"
+        android:layout_width="163dp"
+        android:layout_height="34dp"
+        android:layout_margin="8dp"
+        android:lines="1"
+        android:text="Product Name"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        app:layout_constraintStart_toEndOf="@id/ivProductBanner"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_add" />
+        app:layout_constraintWidth_percent="0.4" />
 
-    <ImageView
-        android:id="@+id/imgMinus"
-        android:layout_width="35dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="108dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/bottom_bar" />
+    <TextView
+        android:id="@+id/tvProductPrice"
+        android:lines="1"
+        android:layout_margin="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tvProductName"
+        app:layout_constraintStart_toEndOf="@id/ivProductBanner"
+        app:layout_constraintWidth_percent="0.2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="200USD"/>
 
+
+    <LinearLayout
+        android:id="@+id/cartUpdateContainer"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toEndOf="@id/ivProductBanner"
+        app:layout_constraintTop_toBottomOf="@id/tvProductPrice"
+        app:layout_constraintWidth_percent="0.4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btnAddMore"
+            android:text="+"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/etCartItemQuantity"
+            android:inputType="number"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btnReduce"
+            android:text="-"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRemove"
+        android:text="Remove"
+        android:layout_margin="8dp"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toEndOf="@id/ivProductBanner"
+        app:layout_constraintTop_toBottomOf="@id/cartUpdateContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

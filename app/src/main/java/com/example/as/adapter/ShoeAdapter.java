@@ -8,120 +8,90 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.as.Utils;
 import com.example.as.activity.MainActivity;
+import com.example.as.interfaces.OnAddCardClick;
+import com.example.as.model.CartItem;
 import com.example.as.model.Cart_class;
 import com.example.as.database.Database;
 import com.example.as.R;
 import com.example.as.activity.DetailShoe;
 import com.example.as.model.AppUtil;
+import com.example.as.model.Product;
 import com.example.as.model.Shoe;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoeAdapter  extends BaseAdapter {
+public class ShoeAdapter  extends RecyclerView.Adapter<ShoeAdapter.ProductViewHolder> {
     private Context context;
-    private int layout;
-    private List<Shoe> shoeList;
-    private Database database;
+    private List<Product> shoeList;
+    private int userId;
+    private OnAddCardClick cardClick;
 
-    public ShoeAdapter(Context context, int layout, ArrayList<Shoe> arrayShoe) {
-        this.context=context;
-        this.layout=layout;
-        this.shoeList=arrayShoe;
+    public ShoeAdapter(Context context, List<Product> shoeList, int userId) {
+        this.context = context;
+        this.shoeList = shoeList;
+        this.userId = userId;
     }
 
-
+    @NonNull
     @Override
-    public int getCount() {
-        return shoeList.size();
-    }
-
-    @Override
-    public Object getItem(int i) {
-        return null;
+    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ProductViewHolder(LayoutInflater.from(context).inflate(R.layout.dong_shoe,parent,false));
     }
 
     @Override
-    public long getItemId(int i) {
-        return 0;
-    }
-
-    private class ViewHolder{
-        TextView txtName;
-        TextView txtPrice;
-        TextView textViewQuantity;
-        ImageView imageShoe;
-        ImageView imageviewShoeDetail,imageviewAddtoCart;
+    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
+        Product item = shoeList.get(position);
+        holder.tvProductName.setText(item.getName());
+        holder.tvProductPrice.setText(item.getPrice()+"");
+        holder.btnAddCart.setOnClickListener(view ->{
+            CartItem cartItem = new CartItem(1, shoeList.get(position), 1);
+            Utils.addCard(cartItem,userId,1);
+            cardClick.onReloadTotal();
+        });
+        holder.product.setOnClickListener(view -> {
+            Intent intent = new Intent(context,DetailShoe.class);
+            intent.putExtra("userId", userId);
+            intent.putExtra("productId", item.getProductId());
+            context.startActivity(intent);
+        });
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder holder;
-        if(view == null){
-            holder=new ViewHolder();
-            LayoutInflater inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view=inflater.inflate(layout,null);
-            holder.txtName=(TextView) view.findViewById(R.id.textViewName);
-            holder.txtPrice=(TextView) view.findViewById(R.id.textViewPrice);
-            holder.textViewQuantity=(TextView) view.findViewById(R.id.textViewQuantity);
-            holder.imageShoe=(ImageView) view.findViewById(R.id.imageviewShoe);
-            holder.imageviewShoeDetail=(ImageView) view.findViewById(R.id.imageviewShoeDetail);
-            holder.imageviewAddtoCart=(ImageView) view.findViewById(R.id.imageviewAddtoCart);
-            view.setTag(holder);
+    public int getItemCount() {
+        return shoeList == null ? 0 : shoeList.size();
+    }
 
-            holder.imageviewShoeDetail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent=new Intent(context, DetailShoe.class);
-                    database=new Database(context,"GhiChu.sqlite",null,1);
-                    int iddetail=i+1;
-                    Cursor dataShoe=database.GetData("Select * from Shoe Where id = "+ iddetail + " LIMIT 1 ");
-                    while (dataShoe.moveToNext()){
-                        AppUtil.ShoeName=dataShoe.getString(1);
-                        AppUtil.shoePrice=dataShoe.getString(2);
-                        AppUtil.shoeDetail=dataShoe.getString(3);
-                    }
-
-                    context.startActivity(intent);
-                }
-            });
-
-            holder.imageviewAddtoCart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(AppUtil.cart==null){
-                        AppUtil.cart=new Cart_class();
-                    }
-                    AppUtil.cart.addShoe(shoeList.get(i));
-                    Toast.makeText(context,"Add to cart success",Toast.LENGTH_LONG).show();
-                    ((Activity)context).recreate();
-
-
-                }
-            });
-
+    public class ProductViewHolder extends RecyclerView.ViewHolder{
+        TextView tvProductName, tvProductPrice, tvProductDescription;
+        EditText etItemQuantity;
+        MaterialButton btnAddCart;
+        ConstraintLayout product;
+        public ProductViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvProductName = itemView.findViewById(R.id.tvProductName);
+            tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
+            etItemQuantity = itemView.findViewById(R.id.etCartItemQuantity);
+            tvProductDescription = itemView.findViewById(R.id.tvProductDescription);
+            btnAddCart = itemView.findViewById(R.id.btnAddCart);
+            product = itemView.findViewById(R.id.product);
         }
-        else
-        {
-            holder=(ViewHolder) view.getTag();
-        }
-
-        Shoe shoe=shoeList.get(i);
-        String quantity="Quantity: "+String.valueOf(shoe.getQuantity());
-        if(shoe.getQuantity()==1){
-            quantity="";
-        }
-
-        holder.txtName.setText(shoe.getNameShoe());
-        holder.txtPrice.setText("Price: "+shoe.getPrice() + "$");
-        holder.textViewQuantity.setText(quantity);
-        return view;
     }
 
-
+    public void setCardClick(OnAddCardClick cardClick) {
+        this.cardClick = cardClick;
+    }
 }

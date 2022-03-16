@@ -6,109 +6,95 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.as.Utils;
 import com.example.as.database.Database;
 import com.example.as.R;
+import com.example.as.interfaces.OnAddCardClick;
 import com.example.as.model.AppUtil;
+import com.example.as.model.CartItem;
 import com.example.as.model.Shoe;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
-public class CartAdapter extends BaseAdapter {
-    private Context context;
-    private int layout;
-    private List<Shoe> shoeList;
-    private Database database;
+public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
+    Context context;
+    List<CartItem> items;
+    int userId;
+    private OnAddCardClick click;
 
-    public CartAdapter(Context context, int layout, ArrayList<Shoe> arrayShoe) {
+    public CartAdapter(Context context, List<CartItem> items) {
         this.context = context;
-        this.layout = layout;
-        this.shoeList = arrayShoe;
+        this.items = items;
     }
 
-
-    @Override
-    public int getCount() {
-        return shoeList.size();
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
+    @NonNull
     @Override
-    public Object getItem(int i) {
-        return null;
+    public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new CartViewHolder(LayoutInflater.from(context).inflate(R.layout.dong_cart, parent, false));
     }
 
     @Override
-    public long getItemId(int i) {
-        return 0;
-    }
-
-    private class ViewHolder {
-        TextView txtNameCart;
-        TextView txtPriceCart;
-        TextView textViewQuantityCart;
-        ImageView ShoeImageCart, Delete,Add,Minus;
+    public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
+        CartItem item = items.get(position);
+        holder.tvProductName.setText(item.getProduct().getName());
+        holder.tvProductPrice.setText(item.getProduct().getPrice() + "");
+        holder.etItemQuantity.setText(item.getQuantity()+"");
+        holder.btnAddMore.setOnClickListener(view -> {
+            holder.etItemQuantity.setText(item.getQuantity() + 1 + "");
+            Utils.updateCart(item.getId(), userId, item.getQuantity() + 1);
+            click.onReloadTotal();
+        });
+        holder.btnReduce.setOnClickListener(view -> {
+            holder.etItemQuantity.setText((item.getQuantity() - 1 > 0 ? item.getQuantity() - 1 : 1) + "");
+            Utils.updateCart(item.getId(), userId, (item.getQuantity() - 1 > 0 ? item.getQuantity() - 1 : 1));
+            click.onReloadTotal();
+        });
+        holder.btnRemove.setOnClickListener(view -> {
+            Utils.removeCart(item, userId);
+            items.remove(position);
+            click.onReloadTotal();
+            notifyDataSetChanged();
+        });
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        CartAdapter.ViewHolder holder;
-        if (view == null) {
-            holder = new CartAdapter.ViewHolder();
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(layout, null);
-            holder.txtNameCart = (TextView) view.findViewById(R.id.textViewNameCart);
-            holder.txtPriceCart = (TextView) view.findViewById(R.id.textViewPriceCart);
-            holder.textViewQuantityCart = (TextView) view.findViewById(R.id.textViewQuantityCart);
-            holder.ShoeImageCart = (ImageView) view.findViewById(R.id.imageviewShoeCart);
-            holder.Delete = (ImageView) view.findViewById(R.id.imgDelete);
-            holder.Add = (ImageView) view.findViewById(R.id.imgAdd);
-            holder.Minus = (ImageView) view.findViewById(R.id.imgMinus);
+    public int getItemCount() {
+        return items == null ? 0 : items.size();
+    }
 
+    public class CartViewHolder extends RecyclerView.ViewHolder {
+        TextView tvProductName, tvProductPrice, tvProductDescription;
+        EditText etItemQuantity;
+        Button btnAddMore, btnReduce;
+        MaterialButton btnRemove;
 
-
-            holder.Delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    AppUtil.cart.removeBook(shoeList.get(i).getIdShoe());
-                    ((Activity)context).recreate();
-                }
-            });
-
-            holder.Add.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    AppUtil.cart.addShoe(shoeList.get(i));
-                    ((Activity)context).recreate();
-                }
-            });
-            holder.Minus.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    shoeList.get(i).setQuantity((shoeList.get(i).getQuantity())-1);
-                    if(shoeList.get(i).getQuantity()==0){
-                        AppUtil.cart.removeBook(shoeList.get(i).getIdShoe());
-                    }
-                    ((Activity)context).recreate();
-                }
-            });
-
-            view.setTag(holder);
-
-
-        } else {
-            holder = (CartAdapter.ViewHolder) view.getTag();
+        public CartViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvProductName = itemView.findViewById(R.id.tvProductName);
+            tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
+            etItemQuantity = itemView.findViewById(R.id.etCartItemQuantity);
+            btnAddMore = itemView.findViewById(R.id.btnAddMore);
+            btnReduce = itemView.findViewById(R.id.btnReduce);
+            btnRemove = itemView.findViewById(R.id.btnRemove);
         }
-
-        Shoe shoe = shoeList.get(i);
-        String quantity = "Quantity: " + String.valueOf(shoe.getQuantity());
-        holder.txtNameCart.setText(shoe.getNameShoe());
-        holder.txtPriceCart.setText("Price: " + shoe.getPrice() + "$");
-        holder.textViewQuantityCart.setText(quantity);
-        return view;
     }
 
-
+    public void setClick(OnAddCardClick click) {
+        this.click = click;
+    }
 }

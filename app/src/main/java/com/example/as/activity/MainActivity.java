@@ -62,48 +62,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        cart=(ImageView) findViewById(R.id.cart);
-        totalCartShoes=(TextView) findViewById(R.id.totalCart);
-        if(AppUtil.cart==null)
-        AppUtil.cart=new Cart_class();
-
-        cart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(AppUtil.cart==null){
-                    AppUtil.cart=new Cart_class();
-                }
-                startActivity(i);
-            }
-        });
-
-
-
-        lvShoe=(ListView) findViewById(R.id.listviewShoe);
-
-
-        arrayShoe=new ArrayList<>();
-        adapter=new ShoeAdapter(this,R.layout.dong_shoe,arrayShoe);
-        lvShoe.setAdapter(adapter);
-
-        database=new Database(this,"GhiChu.sqlite",null,1);
-
-        database.QueryData("Create table if not exists Shoe(id Integer Primary Key Autoincrement," +
-                "nameShoe nvarchar(200),price nvarchar(200),detail nvarchar(300))");
-//
-//        database.QueryData("Insert into Shoe values(null,'Adidas','200$')");
-//        database.QueryData("Insert into Shoe values(null,'Adidas','299$')");
-
-        Cursor dataShoe=database.GetData("Select * from Shoe");
-        while (dataShoe.moveToNext()){
-            String name=dataShoe.getString(1);
-            int id=dataShoe.getInt(0);
-            String price=dataShoe.getString(2);
-            arrayShoe.add(new Shoe(id,name,price));
-
-        }
-        adapter.notifyDataSetChanged();
-
     }
 
     @Override
