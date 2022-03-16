@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.example.as.database.Database;
 import com.example.as.R;
+import com.example.as.database.EntityDatabase;
+import com.example.as.model.User;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class Login extends AppCompatActivity {
@@ -49,10 +51,16 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) {
                 username = txtUsername.getText().toString();
                 password = txtPassword.getText().toString();
-                Cursor dataUser = database.GetData("Select * from User " +
-                        "where username like '" + username + "' and " +
-                        "password like '" + password + "' ;");
-                if (dataUser.getCount() > 0) {
+//                Cursor dataUser = database.GetData("Select * from User " +
+//                        "where username like '" + username + "' and " +
+//                        "password like '" + password + "' ;");
+//                if (dataUser.getCount() > 0) {
+//                    startActivity(i);
+//                } else {
+//                    error.setText("username or password wrong");
+//                }
+                User user = EntityDatabase.getInstance(getApplicationContext()).getUserDao().login(username, password);
+                if (user != null) {
                     startActivity(i);
                 } else {
                     error.setText("username or password wrong");
@@ -66,7 +74,5 @@ public class Login extends AppCompatActivity {
                 startActivity(iregis);
             }
         });
-
-
     }
 }

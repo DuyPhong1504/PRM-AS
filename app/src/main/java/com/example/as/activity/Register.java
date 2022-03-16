@@ -2,21 +2,27 @@ package com.example.as.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.as.database.Database;
 import com.example.as.R;
+import com.example.as.database.EntityDatabase;
+import com.example.as.model.User;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.List;
 
 public class Register extends AppCompatActivity {
     Database database;
-    TextInputEditText txtUsername, txtPassword;
+    TextInputEditText txtUsername, txtPassword, txtPassword2;
     Button btnRegister;
-    String username, password;
+    String username, password, password2;
     TextView error, register;
 
     @Override
@@ -27,6 +33,7 @@ public class Register extends AppCompatActivity {
 
         txtUsername = (TextInputEditText) findViewById(R.id.txtUsernameRegis);
         txtPassword = (TextInputEditText) findViewById(R.id.txtPasswordRegis);
+        txtPassword2 = (TextInputEditText) findViewById(R.id.txtPassword2Regis);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         register = (TextView) findViewById(R.id.txtBacktoLogin);
         error = (TextView) findViewById(R.id.txtRegisterError);
@@ -41,18 +48,42 @@ public class Register extends AppCompatActivity {
             public void onClick(View view) {
                 username = txtUsername.getText().toString();
                 password = txtPassword.getText().toString();
-                database.QueryData("Insert into User values(null,'"+username+"','"+password+"')");
+                password2 = txtPassword2.getText().toString();
 
-                Cursor dataUser = database.GetData("Select * from User " +
-                        "where username like '" + username + "' and " +
-                        "password like '" + password + "' ;");
-                if (dataUser.getCount() > 0) {
-                    error.setText("regis success");
-                    txtUsername.setText("");
-                    txtPassword.setText("");
-                    error.requestFocus();
+                if (!password.equals(password2)) {
+                    error.setText("Password is not matched");
+                    return;
+                }
+
+//                database.QueryData("Insert into User values(null,'"+username+"','"+password+"')");
+                User user = new User(username, password);
+
+                if (isUserExisted(user.getUsername())) {
+                    error.setText("Username existed");
+                    return;
+                }
+
+                EntityDatabase.getInstance(getApplicationContext()).getUserDao().insert(user);
+//                Cursor dataUser = database.GetData("Select * from User " +
+//                        "where username like '" + username + "' and " +
+//                        "password like '" + password + "' ;");
+//                if (dataUser.getCount() > 0) {
+//                    error.setText("regis success");
+//                    txtUsername.setText("");
+//                    txtPassword.setText("");
+//                    txtPassword2.setText("");
+//                    error.requestFocus();
+//                } else {
+//                    Toast.makeText(Register.this, "Wrong username or password", Toast.LENGTH_SHORT).show();
+//                }
+                List<User> results = EntityDatabase.getInstance(getApplicationContext()).getUserDao().getAll();
+                if (results != null && results.size() >= 1) {
+                    System.out.println(results);
+                    Toast.makeText(Register.this, "Register successfully", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), Login.class);
+                    startActivity(intent);
                 } else {
-                    error.setText("username or password wrong");
+                    Toast.makeText(Register.this, "Wrong username or password", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -64,5 +95,10 @@ public class Register extends AppCompatActivity {
             }
         });
 
+    }
+
+    private boolean isUserExisted(String username) {
+        List<User> results = EntityDatabase.getInstance(getApplicationContext()).getUserDao().checkExisted(username);
+        return results != null && !results.isEmpty();
     }
 }

@@ -38,13 +38,23 @@
         android:inputType="text"/>
 
 
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/txtQuantity"
+        android:layout_width="366dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="320dp"
+        android:hint="quantity"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnAddshoe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="308dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginTop="396dp"
         android:text="Add"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

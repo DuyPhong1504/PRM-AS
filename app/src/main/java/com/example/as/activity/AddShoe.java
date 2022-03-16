@@ -8,11 +8,13 @@ import android.widget.Button;
 
 import com.example.as.database.Database;
 import com.example.as.R;
+import com.example.as.database.EntityDatabase;
+import com.example.as.model.ShoeV2;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class AddShoe extends AppCompatActivity {
     Database database;
-    TextInputEditText txtNameshoe, txtPriceshoe,txtDetail;
+    TextInputEditText txtNameshoe, txtPriceshoe,txtDetail, txtQuantity;
     Button btnAdd;
 
     @Override
@@ -23,6 +25,7 @@ public class AddShoe extends AppCompatActivity {
         txtNameshoe = (TextInputEditText) findViewById(R.id.txtNameshoe);
         txtPriceshoe = (TextInputEditText) findViewById(R.id.txtPriceshoe);
         txtDetail=(TextInputEditText) findViewById(R.id.txtDetail);
+        txtQuantity=(TextInputEditText) findViewById(R.id.txtQuantity);
         btnAdd = (Button) findViewById(R.id.btnAddshoe);
 
         database=new Database(this,"GhiChu.sqlite",null,1);
@@ -33,8 +36,19 @@ public class AddShoe extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String name = txtNameshoe.getText().toString();
+                int price = Integer.parseInt(txtPriceshoe.getText().toString());
+                String detail = txtDetail.getText().toString();
+                int quantity = Integer.parseInt(txtQuantity.getText().toString());
+
                 database.QueryData("Insert into Shoe values(null,'" + txtNameshoe.getText().toString() + "'," +
                         "'" + txtPriceshoe.getText().toString() + "','"+txtDetail.getText().toString()+"')");
+
+
+                ShoeV2 shoe = new ShoeV2(name, price, quantity, detail);
+                long id = EntityDatabase.getInstance(getApplicationContext()).getShoeV2Dao().insert(shoe);
+                System.out.println(id);
+
                 txtNameshoe.setText("");
                 txtPriceshoe.setText("");
                 finish();
