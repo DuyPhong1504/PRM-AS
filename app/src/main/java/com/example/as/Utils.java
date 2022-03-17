@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Build;
+import android.widget.Toast;
 
 import com.example.as.database.Database;
 import com.example.as.model.CartItem;
@@ -26,7 +27,7 @@ public class Utils {
         if (database != null) {
             return database;
         }
-        database = new Database(context, "GhiChu.sqlite", null, 1);
+        database = new Database(context, "GhiChu.sqlite", null, 3);
         database.QueryData("Create table if not exists users(id Integer Primary Key Autoincrement," +
                 "username nvarchar(200) unique ,password nvarchar(200),role varchar(20))");
 
@@ -62,6 +63,15 @@ public class Utils {
         contentValues.put("description", product.getDescription());
         contentValues.put("quantity", product.getQuantity());
         database.getWritableDatabase().insert("products", "id",contentValues);
+    }
+
+    public static void updateProduct(int id, Product product) {
+        database.QueryData("UPDATE products " +
+                "SET name = '" + product.getName() + "', " +
+                "description = '" + product.getDescription() + "', " +
+                "price = '" + product.getPrice() + "', " +
+                "quantity = '" + product.getQuantity() + "' " +
+                "WHERE id = " + id);
     }
 
     public static Product findProductById(int id) {
@@ -186,13 +196,37 @@ public class Utils {
             return null;
         }
         database.QueryData("insert into users values(null,'" + username + "', '" + password + "', '" + ERole.USER.getText() + "')");
-//        int userid = cursor.getInt(0);
-//        String role = cursor.getString(3);
-//        users = new Users();
-//        users.setId(userid);
-//        users.setUsername(username);
-//        users.setPassword(password);
-//        users.setRole(ERole.valueOf(role.toUpperCase()));
+        cursor = database.GetData("select * from users where username = '" + username +"'");
+        if (cursor.moveToNext()) {
+            int userid = cursor.getInt(0);
+            String role = cursor.getString(3);
+            users = new Users();
+            users.setId(userid);
+            users.setUsername(username);
+            users.setPassword(password);
+            users.setRole(ERole.valueOf(role.toUpperCase()));
+        }
+        return users;
+    }
+
+    private static Users registerAdmin(String username, String password) {
+        Users users = null;
+
+        Cursor cursor = database.GetData("select * from users where username = '" + username +"'");
+        if (cursor.moveToNext()) {
+            return null;
+        }
+        database.QueryData("insert into users values(null,'" + username + "', '" + password + "', '" + ERole.ADMIN.getText() + "')");
+        cursor = database.GetData("select * from users where username = '" + username +"'");
+        if (cursor.moveToNext()) {
+            int userid = cursor.getInt(0);
+            String role = cursor.getString(3);
+            users = new Users();
+            users.setId(userid);
+            users.setUsername(username);
+            users.setPassword(password);
+            users.setRole(ERole.valueOf(role.toUpperCase()));
+        }
         return users;
     }
 

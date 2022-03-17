@@ -43,8 +43,12 @@
         <entry key="..\:/Users/nguye/AndroidStudioProjects/PRM-AS/PRM-AS/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3148148148148148" />
         <entry key="..\:/Users/nguye/AndroidStudioProjects/PRM-AS/PRM-AS/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.3148148148148148" />
         <entry key="..\:/Users/nguye/Desktop/PRM/PRM-AS/app/src/main/res/layout/activity_map.xml" value="0.16847826086956522" />
+        <entry key="..\:/coding/PRM/PRM-AS/app/src/main/res/layout/activity_admin.xml" value="0.24048913043478262" />
         <entry key="..\:/coding/PRM/PRM-AS/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/coding/PRM/PRM-AS/app/src/main/res/layout/activity_register.xml" value="0.12158054711246201" />
+        <entry key="..\:/coding/PRM/PRM-AS/app/src/main/res/layout/dialog_add_product.xml" value="0.33152173913043476" />
+        <entry key="..\:/coding/PRM/PRM-AS/app/src/main/res/layout/item_product.xml" value="0.21041666666666667" />
+        <entry key="..\:/coding/PRM/PRM-AS/app/src/main/res/menu/add_shoe.xml" value="0.4" />
       </map>
     </option>
   </component>

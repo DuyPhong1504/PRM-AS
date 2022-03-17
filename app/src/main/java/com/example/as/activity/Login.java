@@ -42,7 +42,7 @@ public class Login extends AppCompatActivity {
                 Users login = Utils.login(username, password);
                 if(login != null ){
                     if(login.getRole().getText().equalsIgnoreCase("admin")){
-                        Intent intent = new Intent(getBaseContext(), HomeActivity.class);
+                        Intent intent = new Intent(getBaseContext(), AdminActivity.class);
 
                         intent.putExtra("userId", login.getId());
                         startActivity(intent);
@@ -55,5 +55,18 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
+
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Register.class);
+                startActivity(intent);
+            }
+        });
+
+//        register.setOnClickListener((View view) -> {
+//            Intent intent = new Intent(getApplicationContext(), Register.class);
+//            startActivity(intent);
+//        });
     }
 }
