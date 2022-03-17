@@ -29,15 +29,12 @@ public class Utils {
         database = new Database(context, "GhiChu.sqlite", null, 1);
         database.QueryData("Create table if not exists users(id Integer Primary Key Autoincrement," +
                 "username nvarchar(200) unique ,password nvarchar(200),role varchar(20))");
-
         database.QueryData("Create table if not exists products(id Integer Primary Key Autoincrement," +
                 "name nvarchar(200), description nvarchar(200), price DOUBLE, quantity Integer)");
-
         database.QueryData("Create table if not exists carts(id Integer Primary Key Autoincrement," +
                 "quantity Integer, productId Integer, userId Integer, " +
                 "FOREIGN KEY(productId) REFERENCES products(id), " +
                 "FOREIGN KEY(userId) REFERENCES users(id))");
-
         database.QueryData("Create table if not exists orders(id TEXT Primary Key," +
                 "total DOUBLE, userId Integer, orderDate Text, " +
                 "FOREIGN KEY(userId) REFERENCES users(id))");
@@ -54,7 +51,6 @@ public class Utils {
         }
         return database;
     }
-
     public static void insertNewProduct(Product product){
         ContentValues contentValues = new ContentValues();
         contentValues.put("name",product.getName());
@@ -63,6 +59,21 @@ public class Utils {
         contentValues.put("quantity", product.getQuantity());
         database.getWritableDatabase().insert("products", "id",contentValues);
     }
+
+
+//    public static void updateProduct(Product product){
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put("name",product.getName());
+//        contentValues.put("price", product.getPrice());
+//        contentValues.put("description", product.getDescription());
+//        contentValues.put("quantity", product.getQuantity());
+//        String[] where = new String[2];
+//        where[0] = "id = ?";
+//        where[1] = Integer.
+//        database.getWritableDatabase().update("products",
+//                contentValues,new String[2]{"id=?", Integer.toString(product.getProductId())});
+//
+//    }
 
     public static Product findProductById(int id) {
         Product product = null;
@@ -186,13 +197,6 @@ public class Utils {
             return null;
         }
         database.QueryData("insert into users values(null,'" + username + "', '" + password + "', '" + ERole.USER.getText() + "')");
-//        int userid = cursor.getInt(0);
-//        String role = cursor.getString(3);
-//        users = new Users();
-//        users.setId(userid);
-//        users.setUsername(username);
-//        users.setPassword(password);
-//        users.setRole(ERole.valueOf(role.toUpperCase()));
         return users;
     }
 
@@ -250,4 +254,5 @@ public class Utils {
         }
         return products;
     }
+
 }
