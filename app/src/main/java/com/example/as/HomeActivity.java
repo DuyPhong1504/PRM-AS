@@ -56,6 +56,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        Utils.getDd(this);
         List<CartItem> card = Utils.getCard(userId);
         btnCart = findViewById(R.id.btnViewCart);
         if(card == null){

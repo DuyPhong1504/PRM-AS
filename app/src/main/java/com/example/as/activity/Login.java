@@ -43,7 +43,6 @@ public class Login extends AppCompatActivity {
                 if(login != null ){
                     if(login.getRole().getText().equalsIgnoreCase("admin")){
                         Intent intent = new Intent(getBaseContext(), HomeActivity.class);
-
                         intent.putExtra("userId", login.getId());
                         startActivity(intent);
                     }else{

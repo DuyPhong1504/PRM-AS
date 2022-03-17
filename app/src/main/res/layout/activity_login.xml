@@ -49,6 +49,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="112dp"
         android:hint="username"
+        android:text="user01"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
     <com.google.android.material.textfield.TextInputEditText
@@ -58,6 +59,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="184dp"
         android:hint="password"
+        android:text="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:inputType="textPassword"/>

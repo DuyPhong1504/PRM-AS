@@ -1,14 +1,17 @@
 package com.example.as.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.as.CheckoutActivity;
 import com.example.as.Utils;
 import com.example.as.adapter.CartAdapter;
 import com.example.as.R;
@@ -33,6 +36,7 @@ public class Cart extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Utils.getDd(this);
         setContentView(R.layout.activity_cart);
         total=(TextView) findViewById(R.id.tvTotal);
         btnCheckout = findViewById(R.id.btnCheckout);
@@ -48,6 +52,14 @@ public class Cart extends AppCompatActivity {
         total.setText("Total price: "+String.valueOf(getTotalPriceCart())+ "$");
         lvShoeCart.setAdapter(adapter);
         lvShoeCart.setLayoutManager(new LinearLayoutManager(this));
+        btnCheckout.setOnClickListener(view -> {
+            Intent intent = getIntent();
+            Intent checkOutIntent = new Intent(this, CheckoutActivity.class);
+            int userId = intent.getIntExtra("userId", 0) ;
+            checkOutIntent.putExtra("userId",userId);
+            Log.w("transfer now: " , userId +"");
+            startActivity(checkOutIntent);
+        });
 
     }
     public double getTotalPriceCart(){

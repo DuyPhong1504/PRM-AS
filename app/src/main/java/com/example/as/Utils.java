@@ -23,9 +23,6 @@ public class Utils {
     private static Database database;
 
     public static Database getDd(Context context) {
-        if (database != null) {
-            return database;
-        }
         database = new Database(context, "GhiChu.sqlite", null, 1);
         database.QueryData("Create table if not exists users(id Integer Primary Key Autoincrement," +
                 "username nvarchar(200) unique ,password nvarchar(200),role varchar(20))");
@@ -83,7 +80,7 @@ public class Utils {
             String description = cursor.getString(2);
             double price = cursor.getDouble(3);
             int quantity = cursor.getInt(4);
-            product = new Product(1, name, price, quantity, description);
+            product = new Product(cursor.getInt(0), name, price, quantity, description);
         }
         return product;
     }
@@ -145,6 +142,7 @@ public class Utils {
                 order = new Order(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MM yyyy hh:ss")), total, orderItems);
                 order.setUsers(new Users());
                 insertOrderItem(orderItems, order);
+                removeALLCart(userId);
             } else {
                 return null;
             }
@@ -156,20 +154,20 @@ public class Utils {
 
     public static void insertOrderItem(List<OrderItem> items, Order order) {
         StringBuilder builder = new StringBuilder();
-        builder.append(order.getId() + ",");
+        builder.append("'"+order.getId() +"'"+ ",");
         builder.append(order.getTotals() + ",");
-        builder.append(order.getId() + ",");
-        builder.append(order.getId() + ")");
-        database.QueryData("insert into orders(id, total , userId, orderDate) values" + builder.toString());
+        builder.append(order.getUsers().getId() + ",");
+        builder.append("'"+order.getId() + "')");
+        database.QueryData("insert into orders(id, total , userId, orderDate) values(" + builder.toString());
         items.stream().forEach(item -> {
             Product product = item.getProduct();
             StringBuilder builderOrderStr = new StringBuilder();
-            builderOrderStr.append("(null,");
+            builderOrderStr.append("null,");
             builderOrderStr.append(item.getQuantity() + ",");
             builderOrderStr.append(item.getPrice() + ",");
             builderOrderStr.append(item.getProduct().getProductId() + ",");
-            builderOrderStr.append("'" + order.getId() + "'" + ")");
-            database.QueryData("insert into orderDetails(id, quantity, price , productId, orderId) values" + builder.toString());
+            builderOrderStr.append("'" + order.getId() + "'" + ");");
+            //database.QueryData("insert into orderDetails(id, quantity, price , productId, orderId) values(" + builder.toString());
 
         });
     }
@@ -197,7 +195,7 @@ public class Utils {
             return null;
         }
         database.QueryData("insert into users values(null,'" + username + "', '" + password + "', '" + ERole.USER.getText() + "')");
-        return users;
+        return new Users();
     }
 
     public static void updateCart(int itemId, int userId, int quantity) {
@@ -223,6 +221,10 @@ public class Utils {
 
     public static void removeCart(CartItem item, int userId) {
         database.QueryData("Delete from carts where carts.userId = " + userId + " and carts.id = " + item.getId());
+    }
+
+    public static void removeALLCart(int userId) {
+        database.QueryData("Delete from carts where carts.userId = " + userId);
     }
 
     private static boolean itemExist(int productId, int userId, int quantity) {
