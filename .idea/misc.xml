@@ -7,6 +7,7 @@
         <entry key="..\:/Users/ADMIN/Desktop/PRM_Repo/PRM-AS/app/src/main/res/drawable/ic_plus.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/ADMIN/Desktop/PRM_Repo/PRM-AS/app/src/main/res/drawable/ic_search.xml" value="0.18703703703703703" />
         <entry key="..\:/Users/ADMIN/Desktop/PRM_Repo/PRM-AS/app/src/main/res/drawable/ic_shopping_cart_add.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/ADMIN/Desktop/PRM_Repo/PRM-AS/app/src/main/res/layout/activity_address_checkout.xml" value="0.12708333333333333" />
         <entry key="..\:/Users/ADMIN/Desktop/PRM_Repo/PRM-AS/app/src/main/res/layout/activity_cart.xml" value="0.24615384615384617" />
         <entry key="..\:/Users/ADMIN/Desktop/PRM_Repo/PRM-AS/app/src/main/res/layout/activity_checkout.xml" value="0.25" />
         <entry key="..\:/Users/ADMIN/Desktop/PRM_Repo/PRM-AS/app/src/main/res/layout/activity_customer_home.xml" value="0.12708333333333333" />
@@ -21,7 +22,7 @@
         <entry key="..\:/Users/ADMIN/Desktop/PRM_Repo/PRM-AS/app/src/main/res/layout/fragment_address_step.xml" value="0.25" />
         <entry key="..\:/Users/ADMIN/Desktop/PRM_Repo/PRM-AS/app/src/main/res/layout/fragment_order.xml" value="0.25" />
         <entry key="..\:/Users/ADMIN/Desktop/PRM_Repo/PRM-AS/app/src/main/res/layout/fragment_payment.xml" value="0.25" />
-        <entry key="..\:/Users/ADMIN/Desktop/PRM_Repo/PRM-AS/app/src/main/res/layout/item_order_line.xml" value="0.25" />
+        <entry key="..\:/Users/ADMIN/Desktop/PRM_Repo/PRM-AS/app/src/main/res/layout/item_order_line.xml" value="0.1" />
         <entry key="..\:/Users/nguye/AndroidStudioProjects/AS/app/src/main/res/drawable/dong_shoe.xml" value="0.32407407407407407" />
         <entry key="..\:/Users/nguye/AndroidStudioProjects/AS/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Users/nguye/AndroidStudioProjects/AS/app/src/main/res/layout/activity_main.xml" value="0.3484375" />

@@ -56,7 +56,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        super.onResume();
+        Utils.getDd(this);
         List<CartItem> card = Utils.getCard(userId);
         btnCart = findViewById(R.id.btnViewCart);
         if(card == null){
@@ -64,5 +64,6 @@ public class HomeActivity extends AppCompatActivity {
         }else {
             btnCart.setText("Cart("+card.size()+")");
         }
+        super.onResume();
     }
 }
