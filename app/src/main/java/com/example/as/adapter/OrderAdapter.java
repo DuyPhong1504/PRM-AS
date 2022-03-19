@@ -1,6 +1,7 @@
 package com.example.as.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.as.OrderDetail;
 import com.example.as.R;
 import com.example.as.model.Order;
 
@@ -28,7 +30,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderItemVie
     @NonNull
     @Override
     public OrderItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new OrderItemViewHolder(LayoutInflater.from(context).inflate(R.layout.item_order_line,parent));
+        return new OrderItemViewHolder(LayoutInflater.from(context).inflate(R.layout.item_order_line,parent,false));
     }
 
     @Override
@@ -37,6 +39,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderItemVie
         holder.tvOrderId.setText(order.getId());
         holder.tvOrderTotal.setText(order.getTotals()+"");
         holder.tvOrderDate.setText(order.getId());
+        holder.btnDetails.setOnClickListener(view -> {
+            Intent intent = new Intent(context, OrderDetail.class);
+            intent.putExtra("orderId", order.getId());
+            context.startActivity(intent);
+        });
     }
 
     @Override

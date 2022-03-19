@@ -6,7 +6,4 @@
         app:showAsAction="always"
         android:id="@+id/googleMapmenu"
         />
-
-
-
 </menu>

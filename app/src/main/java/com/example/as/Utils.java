@@ -13,7 +13,6 @@ import com.example.as.model.Order;
 import com.example.as.model.OrderItem;
 import com.example.as.model.Product;
 import com.example.as.model.Users;
-
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -122,6 +121,7 @@ public class Utils {
     }
 
     public static Order checkout(int userId) {
+        System.out.println("checkout uid " +userId );
         Order order = null;
         List<Product> products = new ArrayList<>();
         List<OrderItem> orderItems = new ArrayList<>();
@@ -141,6 +141,7 @@ public class Utils {
                         .reduce(0d, (num, num1) -> num + num1);
                 order = new Order(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MM yyyy hh:ss")), total, orderItems);
                 order.setUsers(new Users());
+                order.getUsers().setId(userId);
                 insertOrderItem(orderItems, order);
                 removeALLCart(userId);
             } else {
@@ -149,10 +150,13 @@ public class Utils {
         } else {
             return null;
         }
+        System.out.println(order.getUsers().getId());
         return order;
     }
 
     public static void insertOrderItem(List<OrderItem> items, Order order) {
+        System.out.println("check uid when insert order " + order.getUsers().getId());
+        System.out.println("order id " + order.getId());
         StringBuilder builder = new StringBuilder();
         builder.append("'"+order.getId() +"'"+ ",");
         builder.append(order.getTotals() + ",");
@@ -161,12 +165,6 @@ public class Utils {
         database.QueryData("insert into orders(id, total , userId, orderDate) values(" + builder.toString());
         items.stream().forEach(item -> {
             Product product = item.getProduct();
-//            StringBuilder builderOrderStr = new StringBuilder();
-//            builderOrderStr.append(item.getQuantity() + ",");
-//            builderOrderStr.append(item.getPrice() + ",");
-//            builderOrderStr.append(item.getProduct().getProductId() + ",");
-//            builderOrderStr.append("'" + order.getId() + "'" + ");");
-//            database.QueryData("insert into orderDetails(id, quantity, price , productId, orderId) values(null," + builder.toString());
             ContentValues values = new ContentValues();
             values.put("quantity", item.getQuantity());
             values.put("price", item.getPrice());
@@ -237,7 +235,7 @@ public class Utils {
 
     public static void updateCart(int itemId, int userId, int quantity) {
         StringBuilder builder = new StringBuilder();
-        builder.append(" quantity = ").append(quantity);
+        builder.append("quantity = ").append(quantity);
         builder.append(" where id =  ").append(itemId);
         builder.append(" and userId = ").append(userId);
         database.QueryData("Update carts set " + builder.toString());
@@ -250,7 +248,7 @@ public class Utils {
         StringBuilder builder = new StringBuilder();
         builder.append("(");
         builder.append("null, ");
-        builder.append(item.getQuantity() + quantity).append(", ");
+        builder.append(quantity).append(", ");
         builder.append(item.getProduct().getProductId()).append(", ");
         builder.append(userId).append(")");
         database.QueryData("insert into carts values" + builder.toString());
@@ -294,4 +292,61 @@ public class Utils {
         return products;
     }
 
+    public static List<Order> getOrders(int userId){
+        // orders(id TEXT Primary Key," +
+        //                "total DOUBLE, userId Integer, orderDate Text
+        List<Order> orderList = null;
+        StringBuilder builder = new StringBuilder();
+        builder.append("select id, total, orderDate from orders where ");
+        builder.append("userId = " + userId);
+        Cursor cursor = database.GetData(builder.toString());
+        while (cursor.moveToNext()){
+            if(orderList == null){
+                orderList = new ArrayList<>();
+            }
+            String id;
+            double total;
+            String date;
+            id = cursor.getString(0);
+            total = cursor.getDouble(1);
+            date = cursor.getString(2);
+            Order order = new Order();
+            order.setId(id);
+            order.setTotals(total);
+            order.setOrderDate(date);
+            orderList.add(order);
+        }
+        return orderList;
+    }
+
+    public static List<OrderItem> getOrderItem(int userId, String orderId){
+        //Create table if not exists orderDetails(id Integer Primary Key Autoincrement," +
+        //                "quantity Integer, productId Integer, orderId TEXT, price DOUBLE, " +
+        //                "FOREIGN KEY(productId) REFERENCES products(id), " +
+        //                "FOREIGN KEY(orderId) REFERENCES orders(id)
+        List<OrderItem> orderList = null;
+        StringBuilder builder = new StringBuilder();
+        builder.append("select products.name, orderDetails.price, orderDetails.quantity, orderDetails.productId from orderDetails join products on products.id = orderDetails.productId ");
+        builder.append("where orderId = ").append("'").append(orderId).append("'");
+        Cursor cursor = database.GetData(builder.toString());
+        while (cursor.moveToNext()){
+            if(orderList == null){
+                orderList = new ArrayList<>();
+            }
+            String name;
+            double price;
+            int quantity, productId;
+            name = cursor.getString(0);
+            price = cursor.getDouble(1);
+            quantity = cursor.getInt(2);
+            productId = cursor.getInt(3);
+            OrderItem orderItem = new OrderItem();
+            orderItem.setPrice(price);
+            orderItem.setProduct(new Product(productId,name,price,0, ""));
+            orderItem.setQuantity(quantity);
+            orderList.add(orderItem);
+            System.out.println("order list" + orderList);
+        }
+        return orderList;
+    }
 }

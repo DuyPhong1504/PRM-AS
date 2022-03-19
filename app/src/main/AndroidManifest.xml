@@ -16,10 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AS">
         <activity
-            android:name=".activity.AdminActivity"
+            android:name=".OrderDetail"
             android:exported="false" />
         <activity
             android:name=".OrderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AdminActivity"
             android:exported="false" />
         <activity
             android:name=".HomeActivity"

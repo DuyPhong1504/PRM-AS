@@ -15,13 +15,14 @@ import com.google.android.material.textfield.TextInputEditText;
 public class CheckoutActivity extends AppCompatActivity {
     TextInputEditText etCity, etDistrict , etAddress, etWard;
     MaterialButton btnOrderNow;
+    int userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Utils.getDd(this);
         setContentView(R.layout.activity_checkout);
-        Log.i("userId", this.getIntent().getIntExtra("userId",0)+"");
-        int userID = this.getIntent().getIntExtra("userId",0);
+        Log.i("userId", getIntent().getIntExtra("userId",0)+"");
+        userId = getIntent().getIntExtra("userId",0);
         binding();
         config();
     }
@@ -37,12 +38,18 @@ public class CheckoutActivity extends AppCompatActivity {
     private void config(){
         Intent intent = this.getIntent();
         int uid = intent.getIntExtra("userId", 0);
+        System.out.println("uid" + uid);
         btnOrderNow.setOnClickListener(view -> {
             boolean validation = validation(etCity.getText().toString(), etDistrict.getText().toString(), etWard.getText().toString(), etAddress.getText().toString());
             if (validation) {
                 boolean canCheckOut = Utils.checkoutCart(uid);
                 if(canCheckOut){
-                    Utils.checkout(uid);
+                    Order checkout = Utils.checkout(uid);
+                    Intent detailIntent = new Intent(this, OrderDetail.class);
+                    detailIntent.putExtra("orderId", checkout.getId());
+                    startActivity(detailIntent);
+                }else{
+                    Toast.makeText(this, "Cart item is not available please remove them", Toast.LENGTH_LONG);
                 }
             }
         });

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
     <Button
-        android:text="Open Search Filter"
+        android:text="Search"
         android:id="@+id/btnSearch"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,6 +20,15 @@
         android:id="@+id/btnViewCart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+    <Button
+        android:layout_marginStart="16dp"
+        android:text="My orders"
+        android:textAllCaps="false"
+        android:id="@+id/btnOrders"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnViewCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="8dp"
         android:id="@+id/rvProducts"
@@ -27,5 +36,4 @@
         app:layout_constraintTop_toBottomOf="@id/btnSearch"
         android:layout_width="match_parent"
         android:layout_height="500dp"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

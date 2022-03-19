@@ -7,6 +7,10 @@ public class Order {
     private double totals;
     private List<OrderItem> items;
     private Users users;
+    private String orderDate;
+
+    public Order() {
+    }
 
     public Order(String id, double totals, List<OrderItem> items) {
         this.id = id;
@@ -45,5 +49,13 @@ public class Order {
 
     public void setUsers(Users users) {
         this.users = users;
+    }
+
+    public String getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
     }
 }

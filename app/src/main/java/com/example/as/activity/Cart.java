@@ -75,4 +75,10 @@ public class Cart extends AppCompatActivity {
         }
         return total;
     }
+
+    @Override
+    protected void onResume() {
+        adapter.notifyDataSetChanged();
+        super.onResume();
+    }
 }
