@@ -43,6 +43,8 @@ public class Utils {
                 "quantity Integer, productId Integer, orderId TEXT, price DOUBLE, " +
                 "FOREIGN KEY(productId) REFERENCES products(id), " +
                 "FOREIGN KEY(orderId) REFERENCES orders(id))");
+
+        registerAdmin("admin", "1");
         if(loadProduct() == null){
             insertNewProduct(new Product(1, "Nike Air One", 100, 100, "Nike Air in Usa"));
             insertNewProduct(new Product(1, "Nike Air Two", 100, 100, "Nike Air in Usa"));
@@ -159,14 +161,20 @@ public class Utils {
         database.QueryData("insert into orders(id, total , userId, orderDate) values(" + builder.toString());
         items.stream().forEach(item -> {
             Product product = item.getProduct();
-            StringBuilder builderOrderStr = new StringBuilder();
-            builderOrderStr.append("null,");
-            builderOrderStr.append(item.getQuantity() + ",");
-            builderOrderStr.append(item.getPrice() + ",");
-            builderOrderStr.append(item.getProduct().getProductId() + ",");
-            builderOrderStr.append("'" + order.getId() + "'" + ");");
-            //database.QueryData("insert into orderDetails(id, quantity, price , productId, orderId) values(" + builder.toString());
-
+//            StringBuilder builderOrderStr = new StringBuilder();
+//            builderOrderStr.append(item.getQuantity() + ",");
+//            builderOrderStr.append(item.getPrice() + ",");
+//            builderOrderStr.append(item.getProduct().getProductId() + ",");
+//            builderOrderStr.append("'" + order.getId() + "'" + ");");
+//            database.QueryData("insert into orderDetails(id, quantity, price , productId, orderId) values(null," + builder.toString());
+            ContentValues values = new ContentValues();
+            values.put("quantity", item.getQuantity());
+            values.put("price", item.getPrice());
+            values.put("productId", item.getProduct().getProductId());
+            values.put("orderId", order.getId());
+            database.getWritableDatabase().insert("orderDetails", "id", values);
+            product.setQuantity(product.getQuantity() - item.getQuantity());
+            updateProduct(item.getProduct().getProductId(), product);
         });
     }
 
