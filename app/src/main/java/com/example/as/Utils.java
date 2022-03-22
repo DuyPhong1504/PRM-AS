@@ -236,7 +236,7 @@ public class Utils {
     public static void updateCart(int itemId, int userId, int quantity) {
         StringBuilder builder = new StringBuilder();
         builder.append("quantity = ").append(quantity);
-        builder.append(" where id =  ").append(itemId);
+        builder.append(" where productId =  ").append(itemId);
         builder.append(" and userId = ").append(userId);
         database.QueryData("Update carts set " + builder.toString());
     }

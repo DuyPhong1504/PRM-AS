@@ -56,12 +56,20 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.etItemQuantity.setText(item.getQuantity()+"");
         holder.btnAddMore.setOnClickListener(view -> {
             holder.etItemQuantity.setText(item.getQuantity() + 1 + "");
-            Utils.updateCart(item.getId(), userId, item.getQuantity() + 1);
+            Utils.updateCart(item.getProduct().getProductId(), userId, item.getQuantity() + 1);
+            items.clear();
+            Utils.getDd(context);
+            items.addAll(Utils.getCard(userId));
+            this.notifyDataSetChanged();
             click.onReloadTotal();
         });
         holder.btnReduce.setOnClickListener(view -> {
             holder.etItemQuantity.setText((item.getQuantity() - 1 > 0 ? item.getQuantity() - 1 : 1) + "");
-            Utils.updateCart(item.getId(), userId, (item.getQuantity() - 1 > 0 ? item.getQuantity() - 1 : 1));
+            Utils.updateCart(item.getProduct().getProductId(), userId, (item.getQuantity() - 1 > 0 ? item.getQuantity() - 1 : 1));
+            items.clear();
+            Utils.getDd(context);
+            items.addAll(Utils.getCard(userId));
+            this.notifyDataSetChanged();
             click.onReloadTotal();
         });
         holder.btnRemove.setOnClickListener(view -> {

@@ -78,6 +78,9 @@ public class Cart extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        arrayShoe.clear();
+        Utils.getDd(this);
+        arrayShoe.addAll(Utils.getCard(userId));
         adapter.notifyDataSetChanged();
         super.onResume();
     }

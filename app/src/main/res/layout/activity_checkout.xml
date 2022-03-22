@@ -66,15 +66,35 @@
             android:layout_height="match_parent"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="30dp"
+    <TextView
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/order_checkout_label"
         app:layout_constraintTop_toBottomOf="@id/etAddressLayout"
         app:layout_constraintStart_toStartOf="parent"
-        android:id="@+id/rvCheckoutItems"
         android:layout_width="match_parent"
-        android:layout_height="300dp"/>
+        android:layout_height="wrap_content"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCheckoutItems"
+        android:layout_width="408dp"
+        android:layout_height="217dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etAddressLayout" />
+
+
+    <TextView
+        android:id="@+id/tvTotalCost"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:text="Total: "
+        app:layout_constraintTop_toBottomOf="@id/rvCheckoutItems"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnConfirm"
         android:text="Order now"
